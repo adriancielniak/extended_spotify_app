@@ -2,7 +2,18 @@
 
 Aplikacja do analizy i wizualizacji danych Spotify z dodatkowymi funkcjami tworzenia playlist i map słuchania.
 
-## 🛠️ Stack Technologiczny
+## � Architektura - Diagram Klas UML
+
+![Diagram Klas UML](class_diagram.jpg)
+
+Diagram przedstawia architekturę aplikacji opartą na wzorcach projektowych:
+- **Backend Layer (Django)**: Modele (`User`, `SpotifyDataUpload`, `StreamingHistory`), Kontrolery (`AuthenticationView`, `DataUploadView`), Serializery
+- **Frontend Layer (Vue 3)**: Komponenty widoku, Store (Pinia), Serwisy komunikacyjne
+- **REST API**: Komunikacja HTTP między warstwami
+
+Więcej szczegółów o użytych wzorcach projektowych znajdziesz w pliku [WZORCE_PROJEKTOWE.md](WZORCE_PROJEKTOWE.md).
+
+## �🛠️ Stack Technologiczny
 
 - **Backend:** Django 5.0 + Django REST Framework
 - **Frontend:** Vue 3 + Vite + Pinia
