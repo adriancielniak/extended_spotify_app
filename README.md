@@ -2,65 +2,12 @@
 
 Aplikacja do analizy i wizualizacji danych Spotify z dodatkowymi funkcjami tworzenia playlist i map słuchania.
 
-## 🎵 Funkcjonalności
-
-### Wersja 1.0 (Obecna)
-- ✅ Rejestracja i logowanie użytkowników
-- ✅ Przesyłanie plików ZIP z danymi Spotify
-- ✅ Automatyczne przetwarzanie i zapisywanie danych do bazy
-- ✅ Podstawowe statystyki słuchania (liczba nagrań, godziny)
-
-### Planowane funkcjonalności
-- 📊 Szczegółowe statystyki i wykresy
-- 🗺️ Interaktywna mapa słuchania (z lokalizacją)
-- 🎵 Tworzenie playlist z wybranego okresu
-- 📈 Analiza preferencji gatunkowych
-- 🕐 Wzorce dziennej aktywności
-
 ## 🛠️ Stack Technologiczny
 
 - **Backend:** Django 5.0 + Django REST Framework
 - **Frontend:** Vue 3 + Vite + Pinia
 - **Baza danych:** PostgreSQL 15
 - **Konteneryzacja:** Docker + Docker Compose
-- **API:** Spotify Web API (planowane), OpenStreetMap (planowane)
-
-## 📁 Struktura Projektu
-
-```
-extended_spotify_app/
-├── backend/                    # Backend Django
-│   ├── spotify_backend/       # Główny katalog projektu Django
-│   │   ├── settings.py       # Konfiguracja Django
-│   │   ├── urls.py           # Routing URL
-│   │   └── wsgi.py           # WSGI config
-│   ├── authentication/        # Aplikacja autoryzacji
-│   │   ├── models.py         # Model użytkownika
-│   │   ├── views.py          # Widoki API (login, register)
-│   │   └── urls.py           # Routing autoryzacji
-│   ├── data_upload/           # Aplikacja przesyłania danych
-│   │   ├── models.py         # Modele danych Spotify
-│   │   ├── views.py          # Upload i przetwarzanie
-│   │   └── urls.py           # Routing uploadu
-│   ├── Dockerfile            # Docker config dla backendu
-│   ├── requirements.txt      # Zależności Python
-│   └── manage.py             # CLI Django
-├── frontend/                  # Frontend Vue
-│   ├── src/
-│   │   ├── views/            # Komponenty widoków
-│   │   ├── components/       # Komponenty wielokrotnego użytku
-│   │   ├── stores/           # Pinia stores
-│   │   ├── services/         # API services
-│   │   ├── router/           # Vue Router config
-│   │   ├── App.vue           # Główny komponent
-│   │   └── main.js           # Entry point
-│   ├── Dockerfile            # Docker config dla frontendu
-│   ├── nginx.conf            # Konfiguracja Nginx
-│   └── package.json          # Zależności npm
-├── docker-compose.yml        # Docker Compose dla produkcji
-├── docker-compose.dev.yml    # Docker Compose dla developmentu
-└── README.md                 # Ta dokumentacja
-```
 
 ## 🚀 Instalacja i Uruchomienie
 
@@ -308,17 +255,3 @@ docker-compose restart db
 2. Dodaj adres frontendu do listy
 3. Restart backendu: `docker-compose restart backend`
 
-## 📅 Harmonogram Rozwoju
-
-- ✅ **Listopad 2025:** Przetwarzanie danych i backend
-- ✅ **Grudzień 2025:** Frontend (Vue)
-- 🚧 **Styczeń 2026:** Ostateczne poprawki i nowe funkcjonalności
-
-## 👨‍💻 Autor
-
-Adrian Cielniak
-Projekt realizowany pod nadzorem: Marcin Żelawski
-
-## 📄 Licencja
-
-Projekt studencki - Politechnika (7 semestr, przedmiot ZWP)
