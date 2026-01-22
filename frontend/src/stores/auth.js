@@ -60,9 +60,19 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (err) {
       user.value = null
       isAuthenticated.value = false
-      throw err
+      // Don't throw error on initial check
+      return null
     } finally {
       loading.value = false
+    }
+  }
+
+  async function checkAuth() {
+    // Check if user is authenticated on app startup
+    try {
+      await fetchCurrentUser()
+    } catch (err) {
+      // Silently fail - user is not authenticated
     }
   }
 
@@ -74,6 +84,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     register,
     logout,
-    fetchCurrentUser
+    fetchCurrentUser,
+    checkAuth
   }
 })

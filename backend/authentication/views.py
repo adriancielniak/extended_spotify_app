@@ -10,7 +10,6 @@ from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserSe
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-@csrf_exempt
 def register(request):
     """
     Register a new user
@@ -18,16 +17,33 @@ def register(request):
     serializer = UserRegistrationSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-        return Response(
+        # Automatically log in the user after registration
+        login(request, user)
+        request.session.save()
+        request.session.modified = True
+        
+        response = Response(
             UserSerializer(user).data,
             status=status.HTTP_201_CREATED
         )
+        
+        # Explicitly set session cookie in response
+        response.set_cookie(
+            key='sessionid',
+            value=request.session.session_key,
+            max_age=86400,
+            httponly=False,
+            samesite='Lax',
+            secure=False,
+            path='/'
+        )
+        
+        return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-@csrf_exempt
 def login_view(request):
     """
     Login user
@@ -40,10 +56,27 @@ def login_view(request):
         
         if user is not None:
             login(request, user)
-            return Response(
+            # Ensure session is saved and cookie is set
+            request.session.save()
+            request.session.modified = True
+            
+            response = Response(
                 UserSerializer(user).data,
                 status=status.HTTP_200_OK
             )
+            
+            # Explicitly set session cookie in response
+            response.set_cookie(
+                key='sessionid',
+                value=request.session.session_key,
+                max_age=86400,
+                httponly=False,
+                samesite='Lax',
+                secure=False,
+                path='/'
+            )
+            
+            return response
         return Response(
             {'error': 'Invalid credentials'},
             status=status.HTTP_401_UNAUTHORIZED
@@ -69,3 +102,13 @@ def current_user(request):
     """
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_csrf_token(request):
+    """
+    Get CSRF token
+    """
+    from django.middleware.csrf import get_token
+    return Response({'csrfToken': get_token(request)})

@@ -22,5 +22,33 @@ export const uploadService = {
   async getStats() {
     const response = await api.get('/upload/stats/')
     return response.data
+  },
+
+  async getTopTracks(startDate = '', endDate = '') {
+    const params = {}
+    if (startDate) params.start_date = startDate
+    if (endDate) params.end_date = endDate
+    
+    const response = await api.get('/upload/top-tracks/', { params })
+    return response.data
+  },
+
+  async generateCustomPlaylist(startDate = '', endDate = '', limit = 50) {
+    const params = { limit }
+    if (startDate) params.start_date = startDate
+    if (endDate) params.end_date = endDate
+    
+    const response = await api.get('/upload/generate-playlist/', { params })
+    return response.data
+  },
+
+  async getMonthlyStats() {
+    const response = await api.get('/upload/monthly-stats/')
+    return response.data
+  },
+
+  async deleteAllData() {
+    const response = await api.delete('/upload/delete-all/')
+    return response.data
   }
 }

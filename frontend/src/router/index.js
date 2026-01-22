@@ -5,6 +5,10 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Upload from '../views/Upload.vue'
+import TopTracks from '../views/TopTracks.vue'
+import GeneratePlaylist from '../views/GeneratePlaylist.vue'
+import Charts from '../views/Charts.vue'
+import SpotifyCallback from '../views/SpotifyCallback.vue'
 
 const routes = [
   {
@@ -33,6 +37,30 @@ const routes = [
     name: 'Upload',
     component: Upload,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/top-tracks',
+    name: 'TopTracks',
+    component: TopTracks,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/generate-playlist',
+    name: 'GeneratePlaylist',
+    component: GeneratePlaylist,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/charts',
+    name: 'Charts',
+    component: Charts,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/spotify/callback',
+    name: 'SpotifyCallback',
+    component: SpotifyCallback,
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -42,16 +70,11 @@ const router = createRouter({
 })
 
 // Navigation guard
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   
-  if (to.meta.requiresAuth) {
-    if (!authStore.isAuthenticated) {
-      // Redirect to login if not authenticated
-      next('/login')
-    } else {
-      next()
-    }
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login')
   } else {
     next()
   }

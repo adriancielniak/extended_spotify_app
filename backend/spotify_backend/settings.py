@@ -138,12 +138,56 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
 }
 
-# CORS settings
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
-    "http://localhost:3000",
-    "http://localhost:8080",
-])
+# CORS settings - Allow all because nginx proxy handles everything on same origin
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'cookie',
+]
+CORS_EXPOSE_HEADERS = ['content-type', 'x-csrftoken']
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = False  # Changed to False to allow JavaScript access
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_COOKIE_DOMAIN = None
+SESSION_COOKIE_PATH = '/'
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# CSRF settings
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:3000',
+    'http://localhost:8080',
+    'http://localhost',
+    'http://127.0.0.1',
+]
 
 # Spectacular settings (API documentation)
 SPECTACULAR_SETTINGS = {
@@ -156,3 +200,9 @@ SPECTACULAR_SETTINGS = {
 # File upload settings
 DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100MB
+
+# Spotify API settings
+SPOTIFY_CLIENT_ID = env('SPOTIFY_CLIENT_ID', default='')
+SPOTIFY_CLIENT_SECRET = env('SPOTIFY_CLIENT_SECRET', default='')
+SPOTIFY_REDIRECT_URI = env('SPOTIFY_REDIRECT_URI', default='http://127.0.0.1:8000/api/auth/spotify/callback/')
+SPOTIFY_SCOPES = 'playlist-modify-public playlist-modify-private user-read-private user-read-email'
